@@ -1,0 +1,18 @@
+sudo: required
+services:
+  - docker
+
+branches:
+  except:
+    - gh-pages
+
+#matrix:
+#  include:
+#    - env: CEPH_RELEASE=jewel
+#    - env: CEPH_RELEASE=kraken
+
+before_install:
+  - docker build -t ceph-golang-ci .
+
+script:
+  - docker run --rm -it -v ${PWD}:/go/src/github.com/ceph/go-ceph:z ceph-golang-ci
